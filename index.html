@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>鸳鸯谱 · AI小管家</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root{--bg:#fff7fb;--card:#ffffffcc;--line:#ffd2e6;--text:#2b2b2b;--muted:#6b6b6b;--accent:#ff5fa2;--accent2:#7c5cff;--shadow:0 10px 30px rgba(255,95,162,.12);--r:18px;}
+    *{box-sizing:border-box}
+    body{margin:0;color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial;
+      background:radial-gradient(1200px 800px at 10% 10%, #ffe2f0, transparent),radial-gradient(1000px 700px at 90% 20%, #e6e2ff, transparent),var(--bg);}
+    .app{max-width:1100px;margin:0 auto;padding:14px}
+    .topbar{display:flex;gap:12px;justify-content:space-between;align-items:center;padding:10px 12px;border:1px solid var(--line);background:var(--card);
+      border-radius:18px;box-shadow:var(--shadow);position:sticky;top:10px;z-index:10;backdrop-filter:blur(8px);}
+    .brand{display:flex;gap:10px;align-items:center}
+    .logo{width:44px;height:44px;border-radius:16px;background:linear-gradient(135deg,#ffb3d3,#d2c8ff);display:flex;align-items:center;justify-content:center;
+      box-shadow:0 8px 18px rgba(124,92,255,.16);}
+    .title{font-weight:900;letter-spacing:.5px;font-size:18px}
+    .subtitle{font-size:12px;color:var(--muted)}
+    .nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .chip{border:1px solid var(--line);background:#fff;padding:8px 12px;border-radius:999px;cursor:pointer;transition:transform .08s ease,box-shadow .12s ease;}
+    .chip:hover{transform:translateY(-1px);box-shadow:0 10px 18px rgba(255,95,162,.12)}
+    .chip.active{outline:2px solid rgba(255,95,162,.25)}
+    .view{padding:14px 2px}
+    .grid{display:grid;grid-template-columns:1.35fr .65fr;gap:12px}
+    @media(max-width:920px){.grid{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:14px;}
+    .card h2{margin:0 0 10px 0;font-size:16px}
+    .p{color:var(--muted);margin:6px 0;line-height:1.55}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .badge{display:inline-flex;align-items:center;gap:6px;border:1px dashed var(--line);background:#fff;border-radius:999px;padding:6px 10px;font-size:12px;}
+    .btn{border:0;background:linear-gradient(135deg,var(--accent),#ff93c0);color:#fff;font-weight:900;padding:10px 14px;border-radius:14px;cursor:pointer;
+      box-shadow:0 12px 22px rgba(255,95,162,.18);transition:transform .08s ease;}
+    .btn:hover{transform:translateY(-1px)}
+    .btn.secondary{background:linear-gradient(135deg,var(--accent2),#9c8cff);box-shadow:0 12px 22px rgba(124,92,255,.18)}
+    .btn.ghost{background:#fff;color:#2b2b2b;border:1px solid var(--line);box-shadow:none}
+    .input,select,textarea{width:100%;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:#fff;outline:none;resize:vertical;}
+    label{font-size:12px;color:var(--muted);display:block;margin:10px 0 6px}
+    .hr{height:1px;background:var(--line);margin:12px 0;opacity:.7}
+    .bubble{background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px 12px;margin-top:10px}
+    .who{font-weight:900;color:var(--accent)}
+    .tiny{font-size:12px;color:var(--muted)}
+    .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:10px}
+    .day{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;min-height:84px;cursor:pointer;transition:transform .08s ease;}
+    .day:hover{transform:translateY(-1px)}
+    .day .n{font-weight:900}
+    .day.today{outline:2px solid rgba(255,95,162,.35)}
+    .twoCol{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:520px){.twoCol{grid-template-columns:1fr}}
+    .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(0,0,0,.12);border-top-color:rgba(0,0,0,.45);border-radius:50%;animation:spin .9s linear infinite;vertical-align:-3px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">🪄</div>
+      <div>
+        <div class="title">鸳鸯谱</div>
+        <div class="subtitle">AI小管家｜联网实时回答 + AI日历提醒</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <button class="chip" data-route="home">主页</button>
+      <button class="chip" data-route="calendar">日历</button>
+      <button class="chip" data-route="setup">设置</button>
+      <button class="chip" data-route="about">说明</button>
+    </nav>
+  </header>
+  <main id="view" class="view"></main>
+  <footer class="tiny" style="text-align:center;padding:10px 6px">
+    仅供娱乐与沟通提醒｜拒绝迷信｜遇到严重困扰建议寻求可信赖的人或专业支持
+  </footer>
+</div>
+<script src="./app.js"></script>
+</body>
+</html>
