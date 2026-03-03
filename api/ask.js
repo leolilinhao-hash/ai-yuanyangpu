@@ -9,7 +9,7 @@ module.exports=async(req,res)=>{
     const {date,question,me,ta,context}=req.body||{};
     if(!question||!me||!ta)return res.status(400).json({error:"Bad request"});
     const model=process.env.HF_MODEL||"mistralai/Mistral-7B-Instruct-v0.3";
-    const url=`https://api-inference.huggingface.co/models/${model}`;
+    const url=`https://router.huggingface.co/hf-inference/models/${model}`;
     const prompt=`
 你是“鸳鸯谱AI小管家”。只输出与用户相关的内容，禁止空话套话、禁止科普、禁止免责声明、禁止自我介绍。
 输出一段极简回答（120-220字），必须包含：
