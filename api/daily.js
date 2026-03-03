@@ -9,7 +9,7 @@ module.exports=async(req,res)=>{
     const {date,me,ta,context}=req.body||{};
     if(!date||!me||!ta)return res.status(400).json({error:"Bad request"});
     const model=process.env.HF_MODEL||"mistralai/Mistral-7B-Instruct-v0.3";
-    const url=`https://api-inference.huggingface.co/models/${model}`;
+    const url=`https://router.huggingface.co/hf-inference/models/${model}`;
     const prompt=`
 你是“鸳鸯谱AI日历引擎”。只输出 JSON，不要多余文字，不要代码块。
 根据日期 + 双方八字四柱 + 星座 + 现实因素，生成当日相处提醒，语言必须现实具体，避免空话。
